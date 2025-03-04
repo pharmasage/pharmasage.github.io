@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaSage - AI-Powered Personalized Medicine</title>
+    <style>
+        /* Base styles and variables */
+        :root {
+            --primary: #2C3E50;
+            --secondary: #3498DB;
+            --accent: #1ABC9C;
+            --light: #ECF0F1;
+            --dark: #2C3E50;
+            --text: #333333;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 32px;
+            --spacing-xl: 64px;
+            --font-primary: 'Helvetica Neue', Arial, sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            color: var(--text);
+            line-height: 1.6;
+            background-color: white;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500;
+            margin-bottom: var(--spacing-md);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        /* Header & Navigation */
+        header {
+            padding: var(--spacing-md) 0;
+            position: fixed;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            margin-bottom: 0;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: var(--spacing-lg);
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 120px;
+            padding-bottom: var(--spacing-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-text {
+            max-width: 550px;
+        }
+
+        .hero-text h2 {
+            font-size: 42px;
+            font-weight: 300;
+            color: var(--primary);
+            line-height: 1.2;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: var(--text);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .hero-graphic {
+            position: relative;
+            width: 500px;
+            height: 400px;
+        }
+
+        .hero-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(var(--light) 1px, transparent 1px);
+            background-size: 15px 15px;
+            opacity: 0.5;
+        }
+
+        .hero-dna {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(26, 188, 156, 0.1), rgba(52, 152, 219, 0.1));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-dna::before, .hero-dna::after {
+            content: '';
+            position: absolute;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+        }
+
+        .hero-dna::before {
+            width: 250px;
+            height: 250px;
+            animation: pulse 5s infinite alternate;
+        }
+
+        .hero-dna::after {
+            width: 200px;
+            height: 200px;
+            border-color: var(--secondary);
+            animation: pulse 5s 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            margin-left: var(--spacing-md);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Services Section */
+        .services {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .section-header p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .service-card {
+            background-color: white;
+            padding: var(--spacing-lg);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            background-color: rgba(26, 188, 156, 0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .service-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--accent);
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary);
+        }
+
+        /* Features Section */
+        .features {
+            padding: var(--spacing-xl) 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-content h3 {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .feature-image {
+            flex: 1;
+            max-width: 500px;
+            margin-left: var(--spacing-lg);
+            background-color: var(--light);
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 32px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto var(--spacing-lg);
+        }
+
+        .cta .btn {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .cta .btn:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Contact Form */
+        .contact {
+            padding: var(--spacing-xl) 0;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: var(--font-primary);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: var(--spacing-lg) 0;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer-logo span {
+            color: var(--accent);
+        }
+
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: var(--spacing-md);
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+            }
+
+            .hero-text {
+                text-align: center;
+                margin-bottom: var(--spacing-lg);
+            }
+
+            .hero-graphic {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .feature-item {
+                flex-direction: column;
+            }
+
+            .feature-image {
+                margin-left: 0;
+                margin-top: var(--spacing-md);
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-text h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Pharma<span>Sage</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#technology">Technology</a></li>
+                    <li><a href="#use-cases">Use Cases</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#partners">Partners</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h2>AI-Powered Personalized Medicine Prediction</h2>
+                <p>PharmaSage helps doctors optimize drug selection and dosing for individual patients based on their unique health profiles, improving outcomes and reducing adverse effects.</p>
+                <a href="#contact" class="btn">Request Demo</a>
+                <a href="#technology" class="btn btn-outline">Learn More</a>
+            </div>
+            <div class="hero-graphic">
+                <div class="hero-dots"></div>
+                <div class="hero-dna"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="technology" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Technology</h2>
+                <p>Advanced AI algorithms trained on comprehensive medical datasets to provide personalized medicine recommendations.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6zm0 4h8v2H6zm10 0h2v2h-2zm-6-4h8v2h-8z"/>
+                        </svg>
+                    </div>
+                    <h3>AI Medication Prediction</h3>
+                    <p>Our advanced algorithms predict optimal drug selection based on individual patient profiles.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.99-14h2v6h-2zm0 8h2v2h-2z"/>
+                        </svg>
+                    </div>
+                    <h3>Treatment Optimization</h3>
+                    <p>Fine-tune dosing and treatment regimens to maximize efficacy while minimizing side effects.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/>
+                        </svg>
+                    </div>
+                    <h3>Data Analytics</h3>
+                    <p>Advanced analytics derived from anonymized data provide population-level insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="use-cases" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Use Cases</h2>
+                <p>Real-world applications of our personalized medicine technology.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-content">
+                    <h3>Neurology</h3>
+                    <p>Our platform helps neurologists optimize treatment for patients with epilepsy, migraine, and neurodegenerative disorders by predicting individual responses to medications and minimizing adverse effects.</p>
+                    <p>By analyzing genetic markers, medical history, and current biomarkers, PharmaSage provides personalized dosing recommendations that have shown to improve symptom control by up to 37%.</p>
+                </div>
+                <div class="feature-image">
+                    <!-- Placeholder for neurology-related image -->
+                    <svg width="200" height="200" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#3498DB" stroke-width="1" fill="none"/>
+                        <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="#1ABC9C" stroke-width="1" fill="none"/>
+                        <path d="M12 2V22" stroke="#3498DB" stroke-width="0.5"/>
+                        <path d="M2 12H22" stroke="#3498DB" stroke-width="0.5"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-content">
+                    <h3>Cardiology</h3>
+                    <p>Cardiologists use PharmaSage to optimize therapeutic choices for patients with hypertension, arrhythmias, and heart failure. The platform integrates medication history, comorbidities, and genetic factors to predict optimal drug combinations.</p>
+                    <p>Clinical studies show a 28% reduction in adverse cardiovascular events when treatments are guided by our AI recommendations.</p>
+                </div>
+                <div class="feature-image">
+                    <!-- Placeholder for cardiology-related image -->
+                    <svg width="200" height="200" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" stroke="#3498DB" stroke-width="1" fill="none"/>
+                        <path d="M6 12L10 16L18 8" stroke="#1ABC9C" stroke-width="1"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Patient Care?</h2>
+            <p>Join leading healthcare institutions already using PharmaSage to personalize medication treatment and improve patient outcomes.</p>
+            <a href="#contact" class="btn">Schedule a Consultation</a>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contact Us</h2>
+                <p>Interested in learning more about PharmaSage? Let's start a conversation.</p>
+            </div>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="organization">Organization</label>
+                    <input type="text" id="organization" name="organization" required>
+                </div>
+                <div class="form-group">
+                    <label for="interest">I'm interested in</label>
+                    <select id="interest" name="interest" required>
+                        <option value="">Please select</option>
+                        <option value="demo">Requesting a Demo</option>
+                        <option value="partnership">Research Partnership</option>
+                        <option value="consultation">Clinical Consultation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-info">
+                    <div class="footer-logo">Pharma<span>Sage</span></div>
+                    <p>AI-powered personalized medicine prediction for improved patient outcomes.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#team">Team</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#technology">AI Prediction</a></li>
+                        <li><a href="#technology">Treatment Optimization</a></li>
+                        <li><a href="#technology">Data Analytics</a></li>
+                        <li><a href="#technology">Research Partnerships</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#gdpr">GDPR Compliance</a></li>
+                        <li><a href="#security">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 PharmaSage GmbH. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple navigation scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Mobile menu toggle (simplified version)
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('nav ul');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>
